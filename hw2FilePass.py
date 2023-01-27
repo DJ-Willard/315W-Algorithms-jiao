@@ -22,12 +22,14 @@ def find_longest_path(n, m, edges):
     num_longest_paths = count[distance.index(longest_path)]
     return longest_path, num_longest_paths
 
-def main():
-    n, m = map(int, input().strip().split())
-    edges = [tuple(map(int, line.strip().split())) for line in sys.stdin]
-    longest_path, num_longest_paths = find_longest_path(n, m, edges)
-    print("longest path:", longest_path)
-    print("number of longest paths:", num_longest_paths)
+def main(input_file):
+    with open(input_file, "r") as f:
+        n, m = map(int, f.readline().strip().split())
+        edges = [tuple(map(int, line.strip().split())) for line in f]
+        longest_path, num_longest_paths = find_longest_path(n, m, edges)
+        print("longest path:", longest_path)
+        print("number of longest paths:", num_longest_paths)
 
 if __name__ == "__main__":
-    main()
+    input_file = sys.argv[1]
+    main(input_file)
