@@ -1,29 +1,36 @@
+import heapq
 import sys
 
 def find_longest_path(n, m, edges):
     # Initialize the distance and count arrays
     distance = [float("-inf")] * (n + 1)
-    count = [0] * (n + 1)
+    count = [1] * (n + 1)
     distance[1] = 0
-    count[1] = 1
-    # Run Bellman-Ford algorithm
-    for _ in range(n):
-        updates = 0
-        for i in range(m):
-            u, v, w = edges[i]
-            if distance[u] != float("-inf") and distance[v] < distance[u] + w:
-                distance[v] = distance[u] + w
-                count[v] = count[u]
-                updates += 1
-            elif distance[u] != float("-inf") and distance[v] == distance[u] + w:
-                count[v] += count[u]
-        if updates == 0:
-            break
-    if updates > 0:
-        print("Negative cycle detected!")
-        return None, None
-        # Find the longest path
-    longest_path = max(distance)
+    current_max = 0
+    adj_list = [[] for i in range(n+1)]
+    for u, v, w in edges:
+        adj_list[u].append((v, w))
+
+    # Run Dijkstra algorithm
+    visited = [False] * (n + 1)
+    heap = [(0, 1)]
+    while heap:
+        (dist, node) = heapq.heappop(heap)
+        if visited[node]:
+            continue
+        visited[node] = True
+        distance[node] = dist
+        for v, w in adj_list[node]:
+            if dist + w >= current_max:
+                heapq.heappush(heap, (dist + w, v))
+                if dist + w > current_max:
+                    current_max = dist + w
+                    count[v] = count[node]
+                elif dist + w == current_max:
+                    count[v] += count[node]
+
+    # Find the longest path
+    longest_path = distance[n]
     num_longest_paths = count[distance.index(longest_path)]
     return longest_path, num_longest_paths
 

@@ -21,7 +21,7 @@ class TestFindLongestPath(unittest.TestCase):
         self.assertEqual(longest_path, 6)
         self.assertEqual(num_longest_paths, 8)
     @patch('sys.stdin', open('inSample3.txt', 'r'))
-    def test_Sample2(self):
+    def test_Sample3(self):
         n, m = map(int, input().strip().split())
         edges = [tuple(map(int, line.strip().split())) for line in sys.stdin]
         longest_path, num_longest_paths = find_longest_path(n, m, edges)
