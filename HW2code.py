@@ -6,20 +6,25 @@ def find_longest_path(n, m, edges):
     count = [0] * (n + 1)
     distance[1] = 0
     count[1] = 1
-
     # Run Bellman-Ford algorithm
-    for _ in range(n - 1):
+    for _ in range(n):
+        updates = 0
         for i in range(m):
             u, v, w = edges[i]
             if distance[u] != float("-inf") and distance[v] < distance[u] + w:
                 distance[v] = distance[u] + w
                 count[v] = count[u]
+                updates += 1
             elif distance[u] != float("-inf") and distance[v] == distance[u] + w:
                 count[v] += count[u]
-
-    # Find the longest path
+        if updates == 0:
+            break
+    if updates > 0:
+        print("Negative cycle detected!")
+        return None, None
+        # Find the longest path
     longest_path = max(distance)
-    num_longest_paths = count[distance.index(longest_path)]
+    num_longest_paths = count[n]
     return longest_path, num_longest_paths
 
 def main():
