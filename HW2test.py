@@ -1,50 +1,41 @@
 import unittest
+from unittest.mock import patch
 import sys
-from io import StringIO
-from HW2code import main
+from HW2code import find_longest_path
 
-class TestLongestPath(unittest.TestCase):
-    def setUp(self):
-        self.input_file1 = "inSample1.txt"
-        self.input_file2 = "inSample2.txt"
-        self.input_file3 = "inLarge1.txt"
-        self.input_file4 = "inLarge2.txt"
+class TestFindLongestPath(unittest.TestCase):
 
-    def test_find_longest_path_1(self):
-        # Capture the output of the main function
-        sys.stdout = StringIO()
-        main(self.input_file1)
-        output = sys.stdout.getvalue().strip()
+    @patch('sys.stdin', open('inSample1.txt', 'r'))
+    def test_Sample1(self):
+        n, m = map(int, input().strip().split())
+        edges = [tuple(map(int, line.strip().split())) for line in sys.stdin]
+        longest_path, num_longest_paths = find_longest_path(n, m, edges)
+        self.assertEqual(longest_path, 20)
+        self.assertEqual(num_longest_paths, 3)
 
-        # Check the output
-        self.assertEqual(output, "longest path: 20\nnumber of longest paths: 3")
+    @patch('sys.stdin', open('inSample2.txt', 'r'))
+    def test_Sample2(self):
+        n, m = map(int, input().strip().split())
+        edges = [tuple(map(int, line.strip().split())) for line in sys.stdin]
+        longest_path, num_longest_paths = find_longest_path(n, m, edges)
+        self.assertEqual(longest_path, 6)
+        self.assertEqual(num_longest_paths, 8)
 
-    def test_find_longest_path_2(self):
-        # Capture the output of the main function
-        sys.stdout = StringIO()
-        main(self.input_file2)
-        output = sys.stdout.getvalue().strip()
+    @patch('sys.stdin', open('inLarge1.txt', 'r'))
+    def test_Large1(self):
+        n, m = map(int, input().strip().split())
+        edges = [tuple(map(int, line.strip().split())) for line in sys.stdin]
+        longest_path, num_longest_paths = find_longest_path(n, m, edges)
+        self.assertEqual(longest_path, 29)
+        self.assertEqual(num_longest_paths, 268435456)
 
-        # Check the output
-        self.assertEqual(output, "longest path: 6\nnumber of longest paths: 8")
+    @patch('sys.stdin', open('inLarge2.txt', 'r'))
+    def test_Large2(self):
+        n, m = map(int, input().strip().split())
+        edges = [tuple(map(int, line.strip().split())) for line in sys.stdin]
+        longest_path, num_longest_paths = find_longest_path(n, m, edges)
+        self.assertEqual(longest_path, 19)
+        self.assertEqual(num_longest_paths, 262144)
 
-    def test_find_longest_path_3(self):
-        # Capture the output of the main function
-        sys.stdout = StringIO()
-        main(self.input_file3)
-        output = sys.stdout.getvalue().strip()
-
-        # Check the output
-        self.assertEqual(output, "longest path: 29\nnumber of longest paths: 268435456")
-
-    def test_find_longest_path_4(self):
-        # Capture the output of the main function
-        sys.stdout = StringIO()
-        main(self.input_file4)
-        output = sys.stdout.getvalue().strip()
-
-        # Check the output
-        self.assertEqual(output, "longest path: 19\nnumber of longest paths: 262144")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
