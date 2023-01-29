@@ -24,7 +24,7 @@ def find_longest_path(n, m, edges):
         return None, None
         # Find the longest path
     longest_path = max(distance)
-    num_longest_paths = count[n]
+    num_longest_paths = count[distance.index(longest_path)]
     return longest_path, num_longest_paths
 
 def main():
